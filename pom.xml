@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.citytechinc.aem</groupId>
 	<artifactId>multicomposite-addon</artifactId>
@@ -10,8 +9,12 @@
 	<name>AEM Multicomposite Addon</name>
 
 	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.test.skip>true</maven.test.skip>
 		<component.plugin.version>3.0.0</component.plugin.version>
+        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss.SSSZ</maven.build.timestamp.format>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <aem.username>admin</aem.username>
 	</properties>
 
 	<repositories>
@@ -20,54 +23,6 @@
 			<url>http://nexus.citytech.ctmsp.com/content/groups/public</url>
 		</repository>
 	</repositories>
-
-	<profiles>
-		<profile>
-			<id>install</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<package.goal>install</package.goal>
-			</properties>
-		</profile>
-		<profile>
-			<id>replicate</id>
-			<activation>
-				<property>
-					<name>replicate</name>
-				</property>
-			</activation>
-			<properties>
-				<package.goal>replicate</package.goal>
-			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.citytechinc.maven.plugins</groupId>
-						<artifactId>osgi-bundle-status-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>status-publish</id>
-								<goals>
-									<goal>status</goal>
-								</goals>
-								<configuration>
-									<bundleNames>
-										<bundleName>${core.artifactId}</bundleName>
-									</bundleNames>
-									<host>${cq.host}</host>
-									<port>${cq.port.publish}</port>
-									<username>${cq.username}</username>
-									<password>${cq.password}</password>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 	<build>
 		<plugins>
