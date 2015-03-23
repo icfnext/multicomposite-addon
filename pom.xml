@@ -5,7 +5,7 @@
 	<groupId>com.citytechinc.aem</groupId>
 	<artifactId>multicomposite-addon</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<name>AEM Multicomposite Addon</name>
 
 	<properties>
