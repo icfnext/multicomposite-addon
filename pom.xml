@@ -24,6 +24,13 @@
 		</repository>
 	</repositories>
 
+    <distributionManagement>
+        <repository>
+            <id>citytech-public-releases</id>
+            <url>http://nexus.citytech.ctmsp.com/content/repositories/public-releases/</url>
+        </repository>
+    </distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
