@@ -26,7 +26,7 @@ import com.citytechinc.cq.component.dialog.widgetcollection.WidgetCollection;
 import com.citytechinc.cq.component.dialog.widgetcollection.WidgetCollectionParameters;
 import com.citytechinc.cq.component.maven.util.ComponentMojoUtil;
 
-public final class MultiCompositeFieldWidgetMaker extends AbstractWidgetMaker {
+public final class MultiCompositeFieldWidgetMaker extends AbstractWidgetMaker<MultiCompositeFieldWidgetParameters> {
 
 	private static final String FIELD_CONFIGS = "fieldConfigs";
 
@@ -34,24 +34,14 @@ public final class MultiCompositeFieldWidgetMaker extends AbstractWidgetMaker {
 		super(parameters);
 	}
 
-	public DialogElement make() throws ClassNotFoundException, InvalidComponentFieldException, NotFoundException,
-		CannotCompileException, NoSuchFieldException, InstantiationException, IllegalAccessException,
-		InvocationTargetException, NoSuchMethodException {
+	@Override
+	public DialogElement make(MultiCompositeFieldWidgetParameters widgetParameters) throws ClassNotFoundException,
+		InvalidComponentFieldException, NotFoundException, CannotCompileException, NoSuchFieldException,
+		InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		final MultiCompositeField multiCompositeFieldAnnotation = getAnnotation(MultiCompositeField.class);
-
-		final MultiCompositeFieldWidgetParameters widgetParameters = new MultiCompositeFieldWidgetParameters();
 
 		widgetParameters.setMatchBaseName(multiCompositeFieldAnnotation.matchBaseName());
 		widgetParameters.setPrefix(multiCompositeFieldAnnotation.prefix());
-		widgetParameters.setFieldName(getFieldNameForField());
-		widgetParameters.setFieldLabel(getFieldLabelForField());
-		widgetParameters.setFieldDescription(getFieldDescriptionForField());
-		widgetParameters.setAdditionalProperties(getAdditionalPropertiesForField());
-		widgetParameters.setHideLabel(getHideLabelForField());
-		widgetParameters.setName(getNameForField());
-		widgetParameters.setAllowBlank(!getIsRequiredForField());
-		widgetParameters.setDefaultValue(getDefaultValueForField());
-		widgetParameters.setListeners(getListeners());
 		widgetParameters.setContainedElements(buildWidgetCollection());
 
 		return new MultiCompositeFieldWidget(widgetParameters);
@@ -78,8 +68,8 @@ public final class MultiCompositeFieldWidgetMaker extends AbstractWidgetMaker {
 					}
 				} else {
 					if (member.hasAnnotation(DialogField.class)) {
-						dialogFieldConfig = new DialogFieldConfig(
-							(DialogField) member.getAnnotation(DialogField.class), member);
+						dialogFieldConfig =
+							new DialogFieldConfig((DialogField) member.getAnnotation(DialogField.class), member);
 					}
 				}
 
@@ -88,9 +78,9 @@ public final class MultiCompositeFieldWidgetMaker extends AbstractWidgetMaker {
 
 					double ranking = dialogFieldConfig.getRanking();
 
-					final WidgetMakerParameters curFieldMember = new WidgetMakerParameters(dialogFieldConfig,
-						fieldClass, parameters.getClassLoader(), parameters.getClassPool(),
-						parameters.getWidgetRegistry(), null, false);
+					final WidgetMakerParameters curFieldMember =
+						new WidgetMakerParameters(dialogFieldConfig, fieldClass, parameters.getClassLoader(),
+							parameters.getClassPool(), parameters.getWidgetRegistry(), null, false);
 
 					final DialogElement builtFieldWidget = WidgetFactory.make(curFieldMember, -1);
 
