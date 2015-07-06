@@ -11,7 +11,7 @@
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.test.skip>true</maven.test.skip>
-		<component.plugin.version>3.0.0</component.plugin.version>
+		<component.plugin.version>4.0.0-SNAPSHOT</component.plugin.version>
         <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss.SSSZ</maven.build.timestamp.format>
         <timestamp>${maven.build.timestamp}</timestamp>
         <aem.username>admin</aem.username>
