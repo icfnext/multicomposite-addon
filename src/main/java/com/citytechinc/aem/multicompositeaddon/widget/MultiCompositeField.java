@@ -1,4 +1,4 @@
-package com.citytechinc.aem.multicompositeaddon;
+package com.citytechinc.aem.multicompositeaddon.widget;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

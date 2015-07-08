@@ -1,4 +1,4 @@
-package com.citytechinc.aem.multicompositeaddon;
+package com.citytechinc.aem.multicompositeaddon.widget;
 
 import com.citytechinc.cq.component.annotations.config.Widget;
 import com.citytechinc.cq.component.dialog.AbstractWidget;
