@@ -155,7 +155,7 @@
                     $('.multicompositefield-field', this).each(function() {
                         var contentPath = $(this).data('content-path');
 
-                        $('input,select', this).each(function() {
+                        $('input,select,textarea', this).each(function() {
                             if (endsWith(contentPath, $(this).attr('name'))
                                     || $(this).attr('name')
                                         .match(new RegExp(contentPath.replace('#', '[0-9]*'), 'g'))) {
