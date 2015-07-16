@@ -158,8 +158,6 @@
                 $('.multicompositefield-item', this).each(function(itemIndex) {
                     $('.multicompositefield-field', this).each(function() {
                         var contentPath = $(this).data('content-path');
-
-<<<<<<< HEAD
                         $('input,select,textarea', this).each(function() {
                         	var currentName=$(this).attr('name');
                             if (endsWith(contentPath, currentName) || currentName.match(new RegExp(contentPath.replace('#', '[0-9]*'), 'g'))) {
