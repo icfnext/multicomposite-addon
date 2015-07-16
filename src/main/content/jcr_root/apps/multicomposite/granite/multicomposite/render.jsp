@@ -1,14 +1,12 @@
 <%@include file="/libs/granite/ui/global.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="multicomposite" uri="http://www.citytechinc.com/taglibs/multicomposite" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page import="com.citytechinc.aem.multicompositeaddon.Multicomposite" %>
 <c:set var="cmp" value="<%= cmp %>"/>
 <c:set var="multi" value="<%=new Multicomposite(cmp,i18n,slingRequest)%>"/>
 
-<div ${multi.attributes}>
-	<c:forEach var="value" items="${multi.values}" varStatus="valueStatus">
-		<input type="hidden" name="${multi.name}/item_${valueStatus.count}@Delete" />
-	</c:forEach>
+<div ${multi.attributes} data-original-count="${fn:length(multi.values)}" data-name="${multi.name}">
 	<ol class="coral-Multifield-list js-coral-Multicompositefield-list multicompositefield-list">
 		<c:forEach var="value" items="${multi.values}" varStatus="valueStatus">
 			<li class="js-coral-Multicompositefield-input coral-Multifield-input">

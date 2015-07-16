@@ -44,11 +44,11 @@
         lastIndex = subjectString.indexOf(searchString, position);
 
         return lastIndex !== -1 && lastIndex === position;
-    };
+    },
 
     startsWith =function(str, prefix) {
         return str.indexOf(prefix) === 0;
-    }
+    };
     
 
     CUI.Multicompositefield = new Class({
@@ -64,8 +64,15 @@
             }
 
             this.adjustMarkup();
-            this.renumber();
+            this.renumber(false);
             this.addListeners();
+            
+            var self=this;
+            if (CUI.options.dataAPI) {
+                $(document).on('cui-contentloaded.data-api', function(e) {
+                  self.renumber(true);
+                });
+            }
         },
 
         adjustMarkup: function() {
@@ -79,16 +86,18 @@
 
             this.$element.on('click', '.js-coral-Multicompositefield-add', function() {
                 var item = $(fieldTemplate);
-
-                item.find('.js-coral-Multicompositefield-placeholder').replaceWith(self.script.html().trim());
+                
+                var newItems=$.parseHTML(self.script.html().trim());
+                var count=self.$element.find(".multicompositefield-item").length+1;
+                self.setNumber(newItems,count,true);
+                item.find('.js-coral-Multicompositefield-placeholder').replaceWith(newItems);
                 item.appendTo(self.ol);
                 $(self.ol).trigger('cui-contentloaded');
-                self.renumber();
             });
 
             this.$element.on('click', '.js-coral-Multicompositefield-remove', function() {
                 $(this).closest('.js-coral-Multicompositefield-input').remove();
-                self.renumber();
+                self.renumber(true);
             });
 
             this.$element
@@ -125,6 +134,18 @@
                     .on('dragend', function() {
                         self.ol.css({height: ''});
                     });
+            this.$element.closest('form').submit(function(){
+            	self.$element.find('[name$="@Delete"]').remove();
+            	var count=self.$element.find(".multicompositefield-item").length;
+            	var originalCount=self.$element.data("original-count");
+            	if(count < originalCount){
+            		var name=self.$element.data("name");
+            		for(var i=count+1;i<=originalCount;i++){
+            			var input = $("<input>").attr("type", "hidden").attr("name", name+"/item_"+i+"@Delete");
+            			self.$element.append(input);
+            		}
+            	}
+            });
         },
 
         reorder: function(item) {
@@ -138,7 +159,7 @@
                 item.insertAfter(after);
             }
 
-            this.renumber();
+            this.renumber(true);
         },
 
         reorderPreview: function(e) {
@@ -153,22 +174,40 @@
             });
         },
 
-        renumber: function() {
+        renumber: function(includeDataElements) {
+        	var self = this;
             $('.multicompositefield-list').each(function() {
                 $('.multicompositefield-item', this).each(function(itemIndex) {
-                    $('.multicompositefield-field', this).each(function() {
-                        var contentPath = $(this).data('content-path');
-                        $('input,select,textarea', this).each(function() {
-                        	var currentName=$(this).attr('name');
-                            if (endsWith(contentPath, currentName) || currentName.match(new RegExp(contentPath.replace('#', '[0-9]*'), 'g'))) {
-                                $(this).attr('name', contentPath.replace('#', itemIndex + 1));
-                            }else if(!startsWith(this.attr.name,"./")){
-                            	$(this).attr('name', contentPath.replace('#', itemIndex + 1) + "/" + currentName);
-                            }
-                        });
-                    });
+                	self.setNumber($(this),itemIndex+1,includeDataElements);
                 });
             });
+        },
+        
+        setNumber: function(element,itemIndex,includeDataElements){
+        	$('.multicompositefield-field', element).each(function() {
+                var contentPath = $(this).data('content-path');
+                var contextPathCorrectNumber = contentPath.replace('#', itemIndex);
+	            $('input,select,textarea', this).each(function() {
+	            	var currentName=$(this).attr('name');
+	                if (endsWith(contentPath, currentName) || currentName.match(new RegExp(contentPath.replace('#', '[0-9]*'), 'g'))) {
+	                    $(this).attr('name', contextPathCorrectNumber);
+	                }else if(currentName.match(new RegExp(contentPath.substring(0,contentPath.lastIndexOf("/")).replace('#', '[0-9]*'), 'g'))){
+	                	$(this).attr('name',$(this).attr("name").replace(new RegExp(contentPath.substring(0,contentPath.lastIndexOf("/"))
+	                			.replace('#', '[0-9]*'), 'g'),contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/"))));
+	                }else if(!startsWith(currentName,"./")){
+	                	$(this).attr('name', contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/")+1) + currentName);
+	                }
+	                //hacks for fileupload
+	                if(includeDataElements){
+		                if($(this).data("filenameparameter") && !startsWith($(this).data("filenameparameter"),"./")){
+		                	$(this).data("filenameparameter",contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/")+1) + $(this).data("filenameparameter"));
+		                }
+		                if($(this).data("filereferenceparameter") && !startsWith($(this).data("filereferenceparameter"),"./")){
+		                	$(this).data("filereferenceparameter",contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/")+1) + $(this).data("filereferenceparameter"));
+		                }
+	                }
+	            });
+        	});
         },
 
         pagePosition: function(e) {
@@ -195,9 +234,7 @@
 
     CUI.Widget.registry.register('multicompositefield', CUI.Multicompositefield);
 
-    if (CUI.options.dataAPI) {
-        $(document).on('cui-contentloaded.data-api', function(e) {
+        $(document).on('foundation-contentloaded', function(e) {
             CUI.Multicompositefield.init($('[data-init~=multicompositefield]', e.target));
         });
-    }
 })(jQuery, CUI, Class);
