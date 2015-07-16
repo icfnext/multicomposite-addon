@@ -46,6 +46,10 @@
         return lastIndex !== -1 && lastIndex === position;
     };
 
+    startsWith =function(str, prefix) {
+        return str.indexOf(prefix) === 0;
+    }
+    
 
     CUI.Multicompositefield = new Class({
         toString: 'Multicompositefield',
@@ -156,10 +160,11 @@
                         var contentPath = $(this).data('content-path');
 
                         $('input,select', this).each(function() {
-                            if (endsWith(contentPath, $(this).attr('name'))
-                                    || $(this).attr('name')
-                                        .match(new RegExp(contentPath.replace('#', '[0-9]*'), 'g'))) {
+                        	var currentName=$(this).attr('name');
+                            if (endsWith(contentPath, currentName) || currentName.match(new RegExp(contentPath.replace('#', '[0-9]*'), 'g'))) {
                                 $(this).attr('name', contentPath.replace('#', itemIndex + 1));
+                            }else if(!startsWith(this.attr.name,"./")){
+                            	$(this).attr('name', contentPath.replace('#', itemIndex + 1) + "/" + currentName);
                             }
                         });
                     });
