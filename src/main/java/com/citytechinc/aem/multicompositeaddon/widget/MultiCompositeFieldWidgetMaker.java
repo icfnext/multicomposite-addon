@@ -83,9 +83,10 @@ public final class MultiCompositeFieldWidgetMaker extends AbstractWidgetMaker<Mu
 							parameters.getClassPool(), parameters.getWidgetRegistry(), null, false);
 
 					final DialogElement builtFieldWidget = WidgetFactory.make(curFieldMember, -1);
-
-					builtFieldWidget.setRanking(ranking);
-					elements.add(builtFieldWidget);
+					if (builtFieldWidget != null) {
+						builtFieldWidget.setRanking(ranking);
+						elements.add(builtFieldWidget);
+					}
 				}
 			}
 		}
