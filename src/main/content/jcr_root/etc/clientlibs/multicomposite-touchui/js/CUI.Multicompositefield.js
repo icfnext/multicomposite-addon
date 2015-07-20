@@ -95,11 +95,6 @@
                 $(self.ol).trigger('cui-contentloaded');
             });
 
-            this.$element.on('click', '.js-coral-Multicompositefield-remove', function() {
-                $(this).closest('.js-coral-Multicompositefield-input').remove();
-                self.renumber(true);
-            });
-
             this.$element
                     .on('taphold mousedown', '.js-coral-Multicompositefield-move', function(e) {
                         var item;
@@ -135,6 +130,7 @@
                         self.ol.css({height: ''});
                     });
             this.$element.closest('form').submit(function(){
+            	self.renumber(true);
             	self.$element.find('[name$="@Delete"]').remove();
             	var count=self.$element.find(".multicompositefield-item").length;
             	var originalCount=self.$element.data("original-count");
