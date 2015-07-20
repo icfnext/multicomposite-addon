@@ -68,11 +68,6 @@
             this.addListeners();
             
             var self=this;
-            if (CUI.options.dataAPI) {
-                $(document).on('cui-contentloaded.data-api', function(e) {
-                  self.renumber(true);
-                });
-            }
         },
 
         adjustMarkup: function() {
