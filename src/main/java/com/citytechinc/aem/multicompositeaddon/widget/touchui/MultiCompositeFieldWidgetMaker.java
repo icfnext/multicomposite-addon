@@ -23,6 +23,7 @@ import javassist.CtMember;
 import javassist.CtMethod;
 import javassist.NotFoundException;
 
+import com.citytechinc.aem.multicompositeaddon.widget.MultiCompositeField;
 import com.citytechinc.cq.component.annotations.DialogField;
 import com.citytechinc.cq.component.annotations.IgnoreDialogField;
 import com.citytechinc.cq.component.dialog.DialogFieldConfig;
@@ -46,7 +47,7 @@ public class MultiCompositeFieldWidgetMaker extends AbstractTouchUIWidgetMaker<M
 	@Override
 	public TouchUIDialogElement make(MultiCompositeFieldWidgetParameters widgetParameters)
 		throws ClassNotFoundException, InvalidComponentFieldException, TouchUIDialogGenerationException {
-
+		widgetParameters.setAllowReorder(getAnnotation(MultiCompositeField.class).allowReorder());
 		try {
 			widgetParameters.setItems(buildLayoutItems());
 		} catch (NotFoundException e) {

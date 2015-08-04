@@ -25,7 +25,14 @@ public class MultiCompositeFieldWidget extends AbstractTouchUIWidget {
 
 	public static final String RESOURCE_TYPE = "multicomposite/granite/multicomposite";
 
+	private final boolean allowReorder;
+
 	public MultiCompositeFieldWidget(MultiCompositeFieldWidgetParameters parameters) {
 		super(parameters);
+		this.allowReorder = parameters.isAllowReorder();
+	}
+
+	public boolean isAllowReorder() {
+		return allowReorder;
 	}
 }

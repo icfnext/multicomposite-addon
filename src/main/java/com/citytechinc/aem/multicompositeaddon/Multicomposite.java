@@ -3,6 +3,7 @@ package com.citytechinc.aem.multicompositeaddon;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceUtil;
@@ -22,6 +23,8 @@ public class Multicomposite {
 	private final String name;
 	private final String readOnlyAttributes;
 	private final String fieldLabel;
+	private final String parentContentPath;
+	private final boolean allowReorder;
 
 	public Multicomposite(ComponentHelper component, I18n i18n, SlingHttpServletRequest request) {
 		this.i18n = i18n;
@@ -29,8 +32,10 @@ public class Multicomposite {
 		attributes = buildAttributes(config, component.consumeTag());
 		readOnlyAttributes = buildReadOnlyAttributes(component);
 		fields = buildFields(config);
-
-		name = config.get("name");
+		parentContentPath = (String) request.getAttribute("multiParentContentPath");
+		name =
+			StringUtils.isNotEmpty((String) request.getAttribute("multiPath")) ? (String) request
+				.getAttribute("multiPath") : config.get("name");
 		String nameForPath = name;
 		if (nameForPath.startsWith("./")) {
 			nameForPath = nameForPath.substring(2);
@@ -38,6 +43,7 @@ public class Multicomposite {
 
 		values = buildValues(request, nameForPath);
 		fieldLabel = component.getXss().encodeForHTML(i18n.getVar(config.get("fieldLabel", "")));
+		allowReorder = config.get("allowReorder", true);
 	}
 
 	private String buildAttributes(Config config, Tag consumeTag) {
@@ -137,5 +143,13 @@ public class Multicomposite {
 		public String getResourceType() {
 			return resourceType;
 		}
+	}
+
+	public String getParentContentPath() {
+		return parentContentPath;
+	}
+
+	public boolean isAllowReorder() {
+		return allowReorder;
 	}
 }

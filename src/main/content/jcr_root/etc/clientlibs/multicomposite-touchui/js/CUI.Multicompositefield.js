@@ -3,29 +3,35 @@
     'use strict';
 
     var addButton
-        = '<button type="button" class="js-coral-Multicompositefield-add coral-Multifield-add coral-MinimalButton">'
+        = '<button type="button" class="js-coral-Multicompositefield-add coral-Multicompositefield-add coral-MinimalButton">'
             + '<i class="coral-Icon coral-Icon--sizeM coral-Icon--addCircle coral-MinimalButton-icon"></i>'
             + '</button>',
 
         removeButton
         = '<button type="button" '
-            + 'class="js-coral-Multicompositefield-remove coral-Multifield-remove coral-MinimalButton">'
+            + 'class="js-coral-Multicompositefield-remove coral-Multicompositefield-remove coral-MinimalButton">'
             + '<i class="coral-Icon coral-Icon--sizeM coral-Icon--minusCircle coral-MinimalButton-icon"></i>'
             + '</button>',
 
         moveButton
-        = '<button type="button" class="js-coral-Multicompositefield-move coral-Multifield-move coral-MinimalButton">'
+        = '<button type="button" class="js-coral-Multicompositefield-move coral-Multicompositefield-move coral-MinimalButton">'
             + '<i class="coral-Icon coral-Icon--sizeM coral-Icon--navigation coral-MinimalButton-icon"></i>'
             + '</button>',
 
         listTemplate
-        = '<ol class="js-coral-Multicompositefield-list coral-Multifield-list"></ol>',
+        = '<ol class="js-coral-Multicompositefield-list coral-Multicompositefield-list"></ol>',
 
         fieldTemplate
-        = '<li class="js-coral-Multicompositefield-input coral-Multifield-input">'
+        = '<li class="js-coral-Multicompositefield-input coral-Multicompositefield-input">'
             + '<div class="js-coral-Multicompositefield-placeholder"></div>'
             + removeButton
             + moveButton
+            + '</li>',
+
+        fieldTemplateNoMove
+        = '<li class="js-coral-Multicompositefield-input coral-Multicompositefield-input">'
+            + '<div class="js-coral-Multicompositefield-placeholder"></div>'
+            + removeButton
             + '</li>',
 
     /*
@@ -56,8 +62,10 @@
         extend: CUI.Widget,
 
         construct: function() {
-            this.script = this.$element.find('.js-coral-Multicompositefield-input-template');
+            this.script = this.$element.find('.js-coral-Multicompositefield-input-template').last();
             this.ol = this.$element.children('.js-coral-Multicompositefield-list');
+            
+            this.allowReorder=this.$element.data("allow-reorder");
 
             if (this.ol.length === 0) {
                 this.ol = $(listTemplate).prependTo(this.$element);
@@ -71,23 +79,41 @@
         },
 
         adjustMarkup: function() {
-            this.$element.addClass('coral-Multifield');
-            this.ol.children('.js-coral-Multicompositefield-input').append(removeButton, moveButton);
-            this.ol.after(addButton);
+            this.$element.addClass('coral-Multicompositefield');
+            this.ol.children('.js-coral-Multicompositefield-input').append(removeButton);
+            if(this.allowReorder){
+            	this.ol.children('.js-coral-Multicompositefield-input').append(removeButton);
+            }
+            this.$addElement = $(addButton);
+            this.ol.after(this.$addElement);
         },
 
         addListeners: function() {
             var self = this;
 
-            this.$element.on('click', '.js-coral-Multicompositefield-add', function() {
-                var item = $(fieldTemplate);
+            this.$addElement.on('click', function() {
+                var item = this.allowReorder ? $(fieldTemplate) : $(fieldTemplateNoMove);
                 
                 var newItems=$.parseHTML(self.script.html().trim());
-                var count=self.$element.find(".multicompositefield-item").length+1;
+                var count=self.$element.find("ol").first().children().length+1;
                 self.setNumber(newItems,count,true);
                 item.find('.js-coral-Multicompositefield-placeholder').replaceWith(newItems);
                 item.appendTo(self.ol);
                 $(self.ol).trigger('cui-contentloaded');
+            });
+            
+            this.$element.on('click', '.js-coral-Multicompositefield-remove', function() {
+            	var item=$(this).closest(".js-coral-Multicompositefield-input");
+            	item.find('.coral-Multicompositefield').each(function(){
+            		var form=self.$element.closest('form');
+                	var count=$(this).find("ol").first().children().length;
+            		var name=$(this).data("multi-name");
+            		for(var i=0;i<=count;i++){
+            			var input = $("<input>").attr("type", "hidden").attr("name", name+"/item_"+i+"@Delete");
+            			form.append(input);
+            		}
+            	});
+            	item.remove();
             });
 
             this.$element
@@ -98,8 +124,8 @@
 
                         item = $(this).closest('.js-coral-Multicompositefield-input');
 
-                        item.prevAll().addClass('coral-Multifield-input--dragBefore');
-                        item.nextAll().addClass('coral-Multifield-input--dragAfter');
+                        item.prevAll().addClass('coral-Multicompositefield-input--dragBefore');
+                        item.nextAll().addClass('coral-Multicompositefield-input--dragAfter');
 
                         // Fix height of list element to avoid flickering of page
                         self.ol.css({height: self.ol.height() + $(e.item).height() + 'px'});
@@ -114,23 +140,23 @@
                     })
                     .on('dragleave', function() {
                         self.ol.removeClass('drag-over').children()
-                            .removeClass('coral-Multifield-input--dragBefore coral-Multifield-input--dragAfter');
+                            .removeClass('coral-Multicompositefield-input--dragBefore coral-Multicompositefield-input--dragAfter');
                     })
                     .on('drop', function(e) {
                         self.reorder($(e.item));
                         self.ol.children()
-                            .removeClass('coral-Multifield-input--dragBefore coral-Multifield-input--dragAfter');
+                            .removeClass('coral-Multicompositefield-input--dragBefore coral-Multicompositefield-input--dragAfter');
                     })
                     .on('dragend', function() {
                         self.ol.css({height: ''});
                     });
             this.$element.closest('form').submit(function(){
             	self.renumber(true);
-            	self.$element.find('[name$="@Delete"]').remove();
-            	var count=self.$element.find(".multicompositefield-item").length;
+            	self.$element.children('[name$="@Delete"]').remove();
+            	var count=self.$element.find("ol").first().children().length;
             	var originalCount=self.$element.data("original-count");
             	if(count < originalCount){
-            		var name=self.$element.data("name");
+            		var name=self.$element.data("multi-name");
             		for(var i=count+1;i<=originalCount;i++){
             			var input = $("<input>").attr("type", "hidden").attr("name", name+"/item_"+i+"@Delete");
             			self.$element.append(input);
@@ -140,8 +166,8 @@
         },
 
         reorder: function(item) {
-            var before = this.ol.children('.coral-Multifield-input--dragAfter').first(),
-                    after = this.ol.children('.coral-Multifield-input--dragBefore').last();
+            var before = this.ol.children('.coral-Multicompositefield-input--dragAfter').first(),
+                    after = this.ol.children('.coral-Multicompositefield-input--dragBefore').last();
 
             if (before.length > 0) {
                 item.insertBefore(before);
@@ -160,27 +186,39 @@
                 var el = $(this),
                         isAfter = pos.y < el.offset().top + el.outerHeight() / 2;
 
-                el.toggleClass('coral-Multifield-input--dragAfter', isAfter);
-                el.toggleClass('coral-Multifield-input--dragBefore', !isAfter);
+                el.toggleClass('coral-Multicompositefield-input--dragAfter', isAfter);
+                el.toggleClass('coral-Multicompositefield-input--dragBefore', !isAfter);
             });
         },
 
         renumber: function(includeDataElements) {
         	var self = this;
-            $('.multicompositefield-list').each(function() {
-                $('.multicompositefield-item', this).each(function(itemIndex) {
+                self.$element.find("ol").first().children().each(function(itemIndex) {
                 	self.setNumber($(this),itemIndex+1,includeDataElements);
                 });
-            });
         },
         
         setNumber: function(element,itemIndex,includeDataElements){
         	$('.multicompositefield-field', element).each(function() {
                 var contentPath = $(this).data('content-path');
+                var parentContentPath = $(this).data('parent-content-path');
                 var contextPathCorrectNumber = contentPath.replace('#', itemIndex);
 	            $('input,select,textarea', this).each(function() {
 	            	var currentName=$(this).attr('name');
-	                if (endsWith(contentPath, currentName) || currentName.match(new RegExp(contentPath.replace('#', '[0-9]*'), 'g'))) {
+                    var slingHint="";
+                    if(currentName.lastIndexOf("@")>-1){
+						slingHint=currentName.substring(currentName.lastIndexOf("@"));
+                    }
+                    if(parentContentPath){
+                        var currentNameSubString=currentName.substring(0,currentName.lastIndexOf("/"));
+                        var parentContextPathSubString = parentContentPath.substring(0,parentContentPath.lastIndexOf("/"));
+                        if(currentNameSubString.match(new RegExp("^"+parentContextPathSubString.replace('#', '[0-9]*'+"$"), 'g'))){
+							var subContentPath=contentPath.split(new RegExp(parentContextPathSubString.replace('#', '[0-9]+')))[1];
+							subContentPath=subContentPath.replace('#', itemIndex);
+                            $(this).attr('name',currentNameSubString+subContentPath+slingHint);
+                        }
+                    }
+                    if (endsWith(contentPath, currentName) || currentName.match(new RegExp(contentPath.replace('#', '[0-9]*'+"$"), 'g'))) {
 	                    $(this).attr('name', contextPathCorrectNumber);
 	                }else if(currentName.match(new RegExp(contentPath.substring(0,contentPath.lastIndexOf("/")).replace('#', '[0-9]*'), 'g'))){
 	                	$(this).attr('name',$(this).attr("name").replace(new RegExp(contentPath.substring(0,contentPath.lastIndexOf("/"))

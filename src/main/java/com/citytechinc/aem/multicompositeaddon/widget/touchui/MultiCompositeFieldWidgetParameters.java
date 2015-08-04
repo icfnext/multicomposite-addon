@@ -27,6 +27,7 @@ import com.citytechinc.cq.component.xml.XmlElement;
 public class MultiCompositeFieldWidgetParameters extends DefaultTouchUIWidgetParameters {
 
 	protected List<TouchUIDialogElement> items;
+	private boolean allowReorder;
 
 	public void addItem(TouchUIDialogElement item) {
 		if (items == null) {
@@ -85,6 +86,14 @@ public class MultiCompositeFieldWidgetParameters extends DefaultTouchUIWidgetPar
 	@Override
 	public void setResourceType(String resourceType) {
 		throw new UnsupportedOperationException("resourceType is Static for MultiCompositeFieldWidget");
+	}
+
+	public boolean isAllowReorder() {
+		return allowReorder;
+	}
+
+	public void setAllowReorder(boolean allowReorder) {
+		this.allowReorder = allowReorder;
 	}
 
 }
