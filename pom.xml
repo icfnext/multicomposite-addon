@@ -75,12 +75,13 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.5.3</version>
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Name>${project.name}</Bundle-Name>
-						<Bundle-Vendor>${project.parent.organization.name}</Bundle-Vendor>
+						<Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
 						<Export-Package>
 							!com.citytechinc.aem.multicompositeaddon.widget.*,
 							com.citytechinc.aem.multicompositeaddon.*
@@ -92,6 +93,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.3</version>
 				<configuration>
 					<appendAssemblyId>false</appendAssemblyId>
 					<descriptors>
