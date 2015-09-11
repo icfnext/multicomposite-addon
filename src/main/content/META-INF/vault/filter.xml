@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/etc/clientlibs/multicomposite"/>
+    <filter root="/etc/clientlibs/multicomposite-touchui"/>
+    <filter root="/apps/multicomposite"/>
 </workspaceFilter>
