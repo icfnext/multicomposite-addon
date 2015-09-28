@@ -82,7 +82,7 @@
             this.$element.addClass('coral-Multicompositefield');
             this.ol.children('.js-coral-Multicompositefield-input').append(removeButton);
             if(this.allowReorder){
-            	this.ol.children('.js-coral-Multicompositefield-input').append(removeButton);
+            	this.ol.children('.js-coral-Multicompositefield-input').append(moveButton);
             }
             this.$addElement = $(addButton);
             this.ol.after(this.$addElement);
@@ -92,7 +92,7 @@
             var self = this;
 
             this.$addElement.on('click', function() {
-                var item = this.allowReorder ? $(fieldTemplate) : $(fieldTemplateNoMove);
+                var item = self.allowReorder ? $(fieldTemplate) : $(fieldTemplateNoMove);
                 
                 var newItems=$.parseHTML(self.script.html().trim());
                 var count=self.$element.find("ol").first().children().length+1;
