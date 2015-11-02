@@ -25,6 +25,7 @@ public class Multicomposite {
 	private final String fieldLabel;
 	private final String parentContentPath;
 	private final boolean allowReorder;
+	private final String baseName;
 
 	public Multicomposite(ComponentHelper component, I18n i18n, SlingHttpServletRequest request) {
 		this.i18n = i18n;
@@ -40,6 +41,7 @@ public class Multicomposite {
 		if (nameForPath.startsWith("./")) {
 			nameForPath = nameForPath.substring(2);
 		}
+		baseName = config.get("baseName", "item_");
 
 		values = buildValues(request, nameForPath);
 		fieldLabel = component.getXss().encodeForHTML(i18n.getVar(config.get("fieldLabel", "")));
@@ -151,5 +153,9 @@ public class Multicomposite {
 
 	public boolean isAllowReorder() {
 		return allowReorder;
+	}
+
+	public String getBaseName() {
+		return baseName;
 	}
 }

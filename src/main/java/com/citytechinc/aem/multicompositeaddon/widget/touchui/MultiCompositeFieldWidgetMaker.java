@@ -48,6 +48,7 @@ public class MultiCompositeFieldWidgetMaker extends AbstractTouchUIWidgetMaker<M
 	public TouchUIDialogElement make(MultiCompositeFieldWidgetParameters widgetParameters)
 		throws ClassNotFoundException, InvalidComponentFieldException, TouchUIDialogGenerationException {
 		widgetParameters.setAllowReorder(getAnnotation(MultiCompositeField.class).allowReorder());
+		widgetParameters.setBaseName(getAnnotation(MultiCompositeField.class).baseName());
 		try {
 			widgetParameters.setItems(buildLayoutItems());
 		} catch (NotFoundException e) {

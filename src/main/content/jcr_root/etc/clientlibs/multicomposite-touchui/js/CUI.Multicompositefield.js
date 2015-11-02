@@ -108,8 +108,9 @@
             		var form=self.$element.closest('form');
                 	var count=$(this).find("ol").first().children().length;
             		var name=$(this).data("multi-name");
+                    var baseName = $( this ).data( 'base-name' );
             		for(var i=0;i<=count;i++){
-            			var input = $("<input>").attr("type", "hidden").attr("name", name+"/item_"+i+"@Delete");
+            			var input = $("<input>").attr("type", "hidden").attr("name", name+"/"+baseName+i+"@Delete");
             			form.append(input);
             		}
             	});

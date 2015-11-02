@@ -43,6 +43,7 @@ public final class MultiCompositeFieldWidgetMaker extends AbstractWidgetMaker<Mu
 		widgetParameters.setMatchBaseName(multiCompositeFieldAnnotation.matchBaseName());
 		widgetParameters.setPrefix(multiCompositeFieldAnnotation.prefix());
 		widgetParameters.setContainedElements(buildWidgetCollection());
+		widgetParameters.setBaseName(multiCompositeFieldAnnotation.baseName());
 
 		return new MultiCompositeFieldWidget(widgetParameters);
 	}
