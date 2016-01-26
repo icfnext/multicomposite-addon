@@ -27,12 +27,20 @@ public class MultiCompositeFieldWidget extends AbstractTouchUIWidget {
 
 	private final boolean allowReorder;
 
+	private final String baseName;
+
 	public MultiCompositeFieldWidget(MultiCompositeFieldWidgetParameters parameters) {
 		super(parameters);
 		this.allowReorder = parameters.isAllowReorder();
+		this.baseName = parameters.getBaseName();
 	}
 
 	public boolean isAllowReorder() {
 		return allowReorder;
 	}
+
+	public String getBaseName() {
+		return baseName;
+	}
+
 }
