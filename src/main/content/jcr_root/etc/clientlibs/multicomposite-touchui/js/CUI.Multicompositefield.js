@@ -206,36 +206,38 @@
                 var contextPathCorrectNumber = contentPath.replace('#', itemIndex);
 	            $('input,select,textarea', this).each(function() {
 	            	var currentName=$(this).attr('name');
-                    var slingHint="";
-                    if(currentName.lastIndexOf("@")>-1){
-						slingHint=currentName.substring(currentName.lastIndexOf("@"));
-                    }
-                    if(parentContentPath){
-                        var currentNameSubString=currentName.substring(0,currentName.lastIndexOf("/"));
-                        var parentContextPathSubString = parentContentPath.substring(0,parentContentPath.lastIndexOf("/"));
-                        if(currentNameSubString.match(new RegExp("^"+parentContextPathSubString.replace('#', '[0-9]*'+"$"), 'g'))){
-							var subContentPath=contentPath.split(new RegExp(parentContextPathSubString.replace('#', '[0-9]+')))[1];
-							subContentPath=subContentPath.replace('#', itemIndex);
-                            $(this).attr('name',currentNameSubString+subContentPath+slingHint);
+                    if (currentName) {
+                        var slingHint="";
+                        if(currentName.lastIndexOf("@")>-1){
+                            slingHint=currentName.substring(currentName.lastIndexOf("@"));
+                        }
+                        if(parentContentPath){
+                            var currentNameSubString=currentName.substring(0,currentName.lastIndexOf("/"));
+                            var parentContextPathSubString = parentContentPath.substring(0,parentContentPath.lastIndexOf("/"));
+                            if(currentNameSubString.match(new RegExp("^"+parentContextPathSubString.replace('#', '[0-9]*'+"$"), 'g'))){
+                                var subContentPath=contentPath.split(new RegExp(parentContextPathSubString.replace('#', '[0-9]+')))[1];
+                                subContentPath=subContentPath.replace('#', itemIndex);
+                                $(this).attr('name',currentNameSubString+subContentPath+slingHint);
+                            }
+                        }
+                        if (endsWith(contentPath, currentName) || currentName.match(new RegExp(contentPath.replace('#', '[0-9]*'+"$"), 'g'))) {
+                            $(this).attr('name', contextPathCorrectNumber);
+                        }else if(currentName.match(new RegExp(contentPath.substring(0,contentPath.lastIndexOf("/")).replace('#', '[0-9]*'), 'g'))){
+                            $(this).attr('name',$(this).attr("name").replace(new RegExp(contentPath.substring(0,contentPath.lastIndexOf("/"))
+                                    .replace('#', '[0-9]*'), 'g'),contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/"))));
+                        }else if(!startsWith(currentName,"./")){
+                            $(this).attr('name', contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/")+1) + currentName);
+                        }
+                        //hacks for fileupload
+                        if(includeDataElements){
+                            if($(this).data("filenameparameter") && !startsWith($(this).data("filenameparameter"),"./")){
+                                $(this).data("filenameparameter",contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/")+1) + $(this).data("filenameparameter"));
+                            }
+                            if($(this).data("filereferenceparameter") && !startsWith($(this).data("filereferenceparameter"),"./")){
+                                $(this).data("filereferenceparameter",contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/")+1) + $(this).data("filereferenceparameter"));
+                            }
                         }
                     }
-                    if (endsWith(contentPath, currentName) || currentName.match(new RegExp(contentPath.replace('#', '[0-9]*'+"$"), 'g'))) {
-	                    $(this).attr('name', contextPathCorrectNumber);
-	                }else if(currentName.match(new RegExp(contentPath.substring(0,contentPath.lastIndexOf("/")).replace('#', '[0-9]*'), 'g'))){
-	                	$(this).attr('name',$(this).attr("name").replace(new RegExp(contentPath.substring(0,contentPath.lastIndexOf("/"))
-	                			.replace('#', '[0-9]*'), 'g'),contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/"))));
-	                }else if(!startsWith(currentName,"./")){
-	                	$(this).attr('name', contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/")+1) + currentName);
-	                }
-	                //hacks for fileupload
-	                if(includeDataElements){
-		                if($(this).data("filenameparameter") && !startsWith($(this).data("filenameparameter"),"./")){
-		                	$(this).data("filenameparameter",contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/")+1) + $(this).data("filenameparameter"));
-		                }
-		                if($(this).data("filereferenceparameter") && !startsWith($(this).data("filereferenceparameter"),"./")){
-		                	$(this).data("filereferenceparameter",contextPathCorrectNumber.substring(0,contextPathCorrectNumber.lastIndexOf("/")+1) + $(this).data("filereferenceparameter"));
-		                }
-	                }
 	            });
         	});
         },
