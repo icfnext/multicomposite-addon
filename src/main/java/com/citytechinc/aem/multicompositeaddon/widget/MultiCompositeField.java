@@ -11,7 +11,11 @@ public @interface MultiCompositeField {
 
 	boolean matchBaseName() default false;
 
+	@Deprecated
 	String prefix() default "./";
 
 	boolean allowReorder() default true;
+
+	String baseName() default "item_";
+
 }

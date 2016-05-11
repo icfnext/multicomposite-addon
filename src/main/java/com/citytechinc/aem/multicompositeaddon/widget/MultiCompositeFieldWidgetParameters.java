@@ -9,6 +9,8 @@ public final class MultiCompositeFieldWidgetParameters extends DefaultWidgetPara
 
 	private String prefix;
 
+	private String baseName;
+
 	public String getPrefix() {
 		return prefix;
 	}
@@ -43,5 +45,13 @@ public final class MultiCompositeFieldWidgetParameters extends DefaultWidgetPara
 
 	public void setMatchBaseName(final boolean matchBaseName) {
 		this.matchBaseName = matchBaseName;
+	}
+
+	public String getBaseName() {
+		return baseName;
+	}
+
+	public void setBaseName(String baseName) {
+		this.baseName = baseName;
 	}
 }
