@@ -29,10 +29,13 @@ public class MultiCompositeFieldWidget extends AbstractTouchUIWidget {
 
 	private final String baseName;
 
+	private final boolean matchBaseName;
+
 	public MultiCompositeFieldWidget(MultiCompositeFieldWidgetParameters parameters) {
 		super(parameters);
 		this.allowReorder = parameters.isAllowReorder();
 		this.baseName = parameters.getBaseName();
+		this.matchBaseName = parameters.isMatchBaseName();
 	}
 
 	public boolean isAllowReorder() {
@@ -41,6 +44,10 @@ public class MultiCompositeFieldWidget extends AbstractTouchUIWidget {
 
 	public String getBaseName() {
 		return baseName;
+	}
+
+	public boolean isMatchBaseName() {
+		return matchBaseName;
 	}
 
 }

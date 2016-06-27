@@ -29,6 +29,7 @@ public class MultiCompositeFieldWidgetParameters extends DefaultTouchUIWidgetPar
 	protected List<TouchUIDialogElement> items;
 	private boolean allowReorder;
 	private String baseName;
+	private boolean matchBaseName;
 
 	public void addItem(TouchUIDialogElement item) {
 		if (items == null) {
@@ -103,5 +104,13 @@ public class MultiCompositeFieldWidgetParameters extends DefaultTouchUIWidgetPar
 
 	public void setBaseName(String baseName) {
 		this.baseName = baseName;
+	}
+
+	public boolean isMatchBaseName() {
+		return matchBaseName;
+	}
+
+	public void setMatchBaseName(boolean matchBaseName) {
+		this.matchBaseName = matchBaseName;
 	}
 }
