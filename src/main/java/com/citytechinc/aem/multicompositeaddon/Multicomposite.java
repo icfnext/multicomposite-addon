@@ -26,6 +26,7 @@ public class Multicomposite {
 	private final String parentContentPath;
 	private final boolean allowReorder;
 	private final String baseName;
+	private final boolean matchBaseName;
 
 	public Multicomposite(ComponentHelper component, I18n i18n, SlingHttpServletRequest request) {
 		this.i18n = i18n;
@@ -42,6 +43,7 @@ public class Multicomposite {
 			nameForPath = nameForPath.substring(2);
 		}
 		baseName = config.get("baseName", "item_");
+		matchBaseName = config.get("matchBaseName", false);
 
 		values = buildValues(request, nameForPath);
 		fieldLabel = component.getXss().encodeForHTML(i18n.getVar(config.get("fieldLabel", "")));
@@ -90,7 +92,9 @@ public class Multicomposite {
 			final Resource containerResource = instanceResource.getChild(name);
 			if (containerResource != null && !ResourceUtil.isNonExistingResource(containerResource)) {
 				for (Resource instanceItem : containerResource.getChildren()) {
-					values.add(instanceItem.getValueMap());
+					if (!matchBaseName || instanceItem.getName().startsWith(baseName)) {
+						values.add(instanceItem.getValueMap());
+					}
 				}
 			}
 		}
