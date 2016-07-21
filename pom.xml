@@ -223,5 +223,9 @@
 			<artifactId>com.adobe.granite.xssprotection</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.day.cq.wcm</groupId>
+			<artifactId>cq-wcm-api</artifactId>
+		</dependency>
 	</dependencies>
 </project>
