@@ -7,7 +7,7 @@ import com.adobe.granite.ui.components.Tag;
 import com.adobe.granite.ui.components.Value;
 import com.day.cq.i18n.I18n;
 import com.day.cq.wcm.api.Page;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceUtil;
