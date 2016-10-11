@@ -1,19 +1,20 @@
 package com.citytechinc.aem.multicompositeaddon;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
+import com.adobe.granite.ui.components.AttrBuilder;
+import com.adobe.granite.ui.components.ComponentHelper;
+import com.adobe.granite.ui.components.Config;
+import com.adobe.granite.ui.components.Tag;
+import com.adobe.granite.ui.components.Value;
+import com.day.cq.i18n.I18n;
+import com.day.cq.wcm.api.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 
-import com.adobe.granite.ui.components.AttrBuilder;
-import com.adobe.granite.ui.components.ComponentHelper;
-import com.adobe.granite.ui.components.Config;
-import com.adobe.granite.ui.components.Tag;
-import com.day.cq.i18n.I18n;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Multicomposite {
 	private final I18n i18n;
@@ -87,8 +88,16 @@ public class Multicomposite {
 
 	private List<ValueMap> buildValues(SlingHttpServletRequest request, String name) {
 		List<ValueMap> values = new ArrayList<ValueMap>();
-		Resource instanceResource = request.getRequestPathInfo().getSuffixResource();
+		Resource instanceResource = request.getResourceResolver().getResource(
+			(String) request.getAttribute(Value.CONTENTPATH_ATTRIBUTE)
+		);
 		if (instanceResource != null && !ResourceUtil.isNonExistingResource(instanceResource)) {
+			final Page contentPage = instanceResource.adaptTo(Page.class);
+			//if we are a page, then make sure our instanceResource is the jcr:content node
+			if (contentPage != null) {
+				instanceResource = contentPage.getContentResource();
+			}
+
 			final Resource containerResource = instanceResource.getChild(name);
 			if (containerResource != null && !ResourceUtil.isNonExistingResource(containerResource)) {
 				for (Resource instanceItem : containerResource.getChildren()) {
