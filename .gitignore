@@ -7,3 +7,5 @@
 .groovy
 .settings/
 target/
+nb-configuration.xml
+

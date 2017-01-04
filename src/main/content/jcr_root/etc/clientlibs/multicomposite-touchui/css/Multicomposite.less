@@ -1,0 +1,115 @@
+/* Multicompositefield.form.styl */
+
+.coral-Form--vertical .coral-Form-field.coral-Multicompositefield {
+  display: block;
+}
+
+/* Multicompositefield.dark.styl */
+
+.coral--dark .coral-Multicompositefield,
+.coral--dark.coral-Multicompositefield {
+  border-color: #434343;
+  background-color: #484848;
+}
+
+.coral-Form-field.coral-Multifield.coral-Multicompositefield {
+    .coral-Multicompositefield-add {
+        margin-top: .625rem;
+    }
+
+    .coral-Multicompositefield-remove {
+        position: absolute;
+        top: 0;
+        right: 2.375rem;
+        margin-top: 0.5rem;
+    }
+
+    .coral-Multicompositefield-move {
+        cursor: url("coralui2/resources/shared/cursors/Cur_Hand_11_11.cur"),move;
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: 0.5rem;
+    }
+
+    .coral-Multicompositefield-move:active {
+        cursor: url("coralui2/resources/shared/cursors/Cur_Fist_11_11.cur"),default !important;
+        cursor: -webkit-grabbing !important;
+        cursor: -moz-grabbing !important;
+    }
+
+    .coral-Multicompositefield-input {
+        position: relative;
+        margin-top: .5rem;
+        padding-right: 0;
+        margin-right: 0;
+    }
+
+    .coral-Multicompositefield-input:first-child {
+        margin-top: 0;
+    }
+
+    .coral-Multicompositefield-input > :first-child {
+        width: 100%;
+    }
+
+    .coral-Multicompositefield-input:only-child .coral-Multicompositefield-move {
+        display: none;
+    }
+
+    .coral-Multicompositefield-input.is-dragging {
+        opacity: .9;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+        filter: alpha(opacity=90);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10000;
+    }
+
+    .coral-Multicompositefield-input.is-dragging:first-child + .coral-Multicompositefield-input {
+        margin-top: 0;
+    }
+
+    .coral-Multicompositefield-input + .coral-Multicompositefield-input {
+        margin-top: .625rem;
+    }
+
+    .coral-Multicompositefield-input--dragAfter {
+        position: relative;
+        top: 3rem;
+    }
+
+    .multicompositefield-list {
+        li {
+            padding-top: 1rem;
+            &:not(:first-child) {
+              border-top: 1px solid #3c3c3c;
+              margin-top: 1rem;
+            }
+        }
+    }
+
+    .multicompositefield-item {
+        padding-top: 1rem;
+        .coral-Form-fieldlabel {
+            min-height: auto;
+            margin-top: 0.2rem;
+            line-height: 1.0625rem;
+        }
+
+        .multicompositefield-field {
+            position: relative;
+        }
+
+        .coral-Form-fieldinfo {
+            float: right;
+            margin-top: 0.5rem;
+            &:after {
+                clear: both;
+            }
+        }
+    }
+}

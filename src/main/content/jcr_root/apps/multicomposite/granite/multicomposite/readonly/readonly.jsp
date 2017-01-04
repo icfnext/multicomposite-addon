@@ -16,6 +16,17 @@
 					<div>
 						<c:forEach var="field" items="${multi.fields}">
 							<div>
+                                <c:if test="${not empty field.fieldLabel}">
+                                    <label class="coral-Form-fieldlabel">${field.fieldLabel}</label>
+                                </c:if>
+                                <c:if test="${not empty field.fieldDescription}">
+                                    <span class="coral-Form-fieldinfo coral-Icon coral-Icon--infoCircle coral-Icon--sizeS"
+                                          data-init="quicktip"
+                                          data-quicktip-type="info"
+                                          data-quicktip-arrow="right"
+                                          data-quicktip-content="${field.fieldDescription}">
+                                    </span>
+                                </c:if>
 								<multicomposite:widgetInclude valueMap="${value}" path="${field.path}" readOnly="true"/>
 							</div>
 						</c:forEach>

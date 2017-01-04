@@ -34,7 +34,7 @@ public class Multicomposite {
 		Config config = component.getConfig();
 		attributes = buildAttributes(config, component.consumeTag());
 		readOnlyAttributes = buildReadOnlyAttributes(component);
-		fields = buildFields(config);
+		fields = buildFields(component);
 		parentContentPath = (String) request.getAttribute("multiParentContentPath");
 		name =
 			StringUtils.isNotEmpty((String) request.getAttribute("multiPath")) ? (String) request
@@ -75,12 +75,12 @@ public class Multicomposite {
 		return attrBuilder.build();
 	}
 
-	private List<SubField> buildFields(Config config) {
+	private List<SubField> buildFields(ComponentHelper component) {
 		List<SubField> fields = new ArrayList<SubField>();
-		Resource fieldsResource = config.getChild("fields");
+		Resource fieldsResource = component.getConfig().getChild("fields");
 		if (fieldsResource != null && !ResourceUtil.isNonExistingResource(fieldsResource)) {
 			for (Resource fieldResource : fieldsResource.getChildren()) {
-				fields.add(new SubField(fieldResource));
+				fields.add(new SubField(fieldResource, component));
 			}
 		}
 		return fields;
@@ -137,12 +137,20 @@ public class Multicomposite {
 	public class SubField {
 
 		private final String name;
+        private final String fieldLabel;
+        private final String fieldDescription;
 		private final String resourceType;
 		private final String path;
 
-		public SubField(final Resource component) {
+		public SubField(final Resource component, final ComponentHelper helper) {
 			ValueMap valueMap = component.adaptTo(ValueMap.class);
 			this.name = valueMap.get("name", "");
+			this.fieldLabel = helper.getXss().encodeForHTML(i18n.getVar(valueMap.get("fieldLabel", "")));
+			this.fieldDescription = helper.getXss().encodeForHTMLAttr(
+                i18n.getVar(
+                    valueMap.get("fieldDescription", "")
+                )
+            );
 			this.path = component.getPath();
 			this.resourceType = component.getResourceType();
 		}
@@ -154,6 +162,14 @@ public class Multicomposite {
 		public String getName() {
 			return name;
 		}
+
+        public String getFieldLabel() {
+            return fieldLabel;
+        }
+
+        public String getFieldDescription() {
+            return fieldDescription;
+        }
 
 		public String getResourceType() {
 			return resourceType;
