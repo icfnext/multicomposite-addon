@@ -5,11 +5,11 @@
 
 	<tlib-version>${project.parent.version}</tlib-version>
 	<short-name>multicomposite</short-name>
-	<uri>http://www.citytechinc.com/taglibs/multicomposite</uri>
+	<uri>http://www.icfolson.com/taglibs/multicomposite</uri>
 
 	<tag>
 		<name>widgetInclude</name>
-		<tag-class>com.citytechinc.aem.multicompositeaddon.tags.WidgetIncludeTag</tag-class>
+		<tag-class>com.icfolson.aem.multicompositeaddon.tags.WidgetIncludeTag</tag-class>
 		<attribute>
 			<name>valueMap</name>
 			<required>false</required>

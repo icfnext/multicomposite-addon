@@ -1,8 +1,8 @@
 <%@include file="/libs/granite/ui/global.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="multicomposite" uri="http://www.citytechinc.com/taglibs/multicomposite" %>
+<%@taglib prefix="multicomposite" uri="http://www.icfolson.com/taglibs/multicomposite" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@page import="com.citytechinc.aem.multicompositeaddon.Multicomposite" %>
+<%@page import="com.icfolson.aem.multicompositeaddon.Multicomposite" %>
 <c:set var="cmp" value="<%= cmp %>"/>
 <c:set var="multi" value="<%=new Multicomposite(cmp,i18n,slingRequest)%>"/>
 
