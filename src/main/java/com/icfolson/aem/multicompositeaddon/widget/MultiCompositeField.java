@@ -1,4 +1,4 @@
-package com.citytechinc.aem.multicompositeaddon.widget;
+package com.icfolson.aem.multicompositeaddon.widget;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,13 +9,13 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD, ElementType.FIELD })
 public @interface MultiCompositeField {
 
-	boolean matchBaseName() default false;
+    boolean matchBaseName() default false;
 
-	@Deprecated
-	String prefix() default "./";
+    @Deprecated
+    String prefix() default "./";
 
-	boolean allowReorder() default true;
+    boolean allowReorder() default true;
 
-	String baseName() default "item_";
+    String baseName() default "item_";
 
 }

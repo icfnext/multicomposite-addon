@@ -31,7 +31,7 @@
 			<useProjectArtifact>true</useProjectArtifact>
 			<scope>compile</scope>
 			<includes>
-                <include>com.citytechinc.aem:multicomposite-addon</include>
+                <include>com.icfolson.aem:multicomposite-addon</include>
             </includes>
             <useStrictFiltering>true</useStrictFiltering>
 		</dependencySet>

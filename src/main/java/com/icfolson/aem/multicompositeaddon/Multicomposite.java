@@ -1,4 +1,4 @@
-package com.citytechinc.aem.multicompositeaddon;
+package com.icfolson.aem.multicompositeaddon;
 
 import com.adobe.granite.ui.components.AttrBuilder;
 import com.adobe.granite.ui.components.ComponentHelper;
