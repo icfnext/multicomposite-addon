@@ -49,6 +49,8 @@ public class MultiCompositeFieldWidgetMaker extends AbstractTouchUIWidgetMaker<M
         widgetParameters.setAllowReorder(getAnnotation(MultiCompositeField.class).allowReorder());
         widgetParameters.setBaseName(getAnnotation(MultiCompositeField.class).baseName());
         widgetParameters.setMatchBaseName(getAnnotation(MultiCompositeField.class).matchBaseName());
+        widgetParameters.setLimit(getAnnotation(MultiCompositeField.class).limit());
+
         try {
             widgetParameters.setItems(buildLayoutItems());
         } catch (NotFoundException e) {

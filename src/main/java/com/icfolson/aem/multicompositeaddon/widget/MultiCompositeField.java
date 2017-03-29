@@ -18,4 +18,10 @@ public @interface MultiCompositeField {
 
     String baseName() default "item_";
 
+    /**
+     * Maximum number of items.  Defaults to 0 (unlimited).  Touch UI only.
+     *
+     * @return limit
+     */
+    int limit() default 0;
 }
