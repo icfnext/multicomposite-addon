@@ -5,8 +5,8 @@
 <c:set var="cmp" value="<%= cmp %>"/>
 <c:set var="multi" value="<%=new Multicomposite(cmp,i18n,slingRequest)%>"/>
 
-<div ${multi.readOnlyAttributes }>
-	<c:if test="${not empty multi.fieldLabel }">
+<div ${multi.readOnlyAttributes}>
+	<c:if test="${not empty multi.fieldLabel}">
 		<label class="coral-Form-fieldlabel">${multi.fieldLabel}</label>
 	</c:if>
 	<ol class="coral-Form-field coral-List coral-List--minimal">

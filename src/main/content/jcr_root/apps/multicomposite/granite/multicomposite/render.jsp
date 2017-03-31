@@ -6,7 +6,7 @@
 <c:set var="cmp" value="<%= cmp %>"/>
 <c:set var="multi" value="<%=new Multicomposite(cmp,i18n,slingRequest)%>"/>
 
-<div ${multi.attributes} data-original-count="${fn:length(multi.values)}" data-base-name="${multi.baseName}" data-multi-name="${multi.name}" data-allow-reorder="${multi.allowReorder }">
+<div ${multi.attributes} data-original-count="${fn:length(multi.values)}" data-base-name="${multi.baseName}" data-multi-name="${multi.name}" data-allow-reorder="${multi.allowReorder}" data-limit="${multi.limit}">
 	<ol class="coral-Multifield-list js-coral-Multicompositefield-list multicompositefield-list">
 		<c:forEach var="value" items="${multi.values}" varStatus="valueStatus">
 			<li class="js-coral-Multicompositefield-input coral-Multifield-input">

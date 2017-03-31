@@ -34,6 +34,8 @@ public class MultiCompositeFieldWidgetParameters extends DefaultTouchUIWidgetPar
 
     private boolean matchBaseName;
 
+    private Integer limit;
+
     public void addItem(TouchUIDialogElement item) {
         if (items == null) {
             items = new ArrayList<TouchUIDialogElement>();
@@ -115,5 +117,13 @@ public class MultiCompositeFieldWidgetParameters extends DefaultTouchUIWidgetPar
 
     public void setMatchBaseName(boolean matchBaseName) {
         this.matchBaseName = matchBaseName;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(final Integer limit) {
+        this.limit = limit;
     }
 }

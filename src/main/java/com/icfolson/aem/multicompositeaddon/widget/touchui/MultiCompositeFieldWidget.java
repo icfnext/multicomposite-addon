@@ -31,11 +31,14 @@ public class MultiCompositeFieldWidget extends AbstractTouchUIWidget {
 
     private final boolean matchBaseName;
 
+    private final Integer limit;
+
     public MultiCompositeFieldWidget(MultiCompositeFieldWidgetParameters parameters) {
         super(parameters);
         this.allowReorder = parameters.isAllowReorder();
         this.baseName = parameters.getBaseName();
         this.matchBaseName = parameters.isMatchBaseName();
+        this.limit = parameters.getLimit();
     }
 
     public boolean isAllowReorder() {
@@ -50,4 +53,7 @@ public class MultiCompositeFieldWidget extends AbstractTouchUIWidget {
         return matchBaseName;
     }
 
+    public Integer getLimit() {
+        return limit;
+    }
 }
