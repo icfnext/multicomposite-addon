@@ -35,7 +35,7 @@
             + '</li>',
 
         fieldErrorEl = '<span class="coral-Form-fielderror coral-Icon coral-Icon--alert coral-Icon--sizeS" ' +
-            'style="float: none;" data-init="quicktip" data-quicktip-type="error" />',
+            'data-init="quicktip" data-quicktip-type="error" data-quicktip-arrow="left"/>',
 
         /*
          * This is a temporary fix for missing ES6 functionality (String.endsWith).
@@ -84,6 +84,7 @@
         },
 
         adjustMarkup: function () {
+            this.$element.parent().addClass('multi-composite-field');
             this.$element.addClass('coral-Multicompositefield');
             this.ol.children('.js-coral-Multicompositefield-input').append(removeButton);
             if (this.allowReorder) {
@@ -91,6 +92,7 @@
             }
             this.$addElement = $(addButton);
             this.ol.after(this.$addElement);
+            this.$element.next().insertBefore(this.$element);
         },
 
         validate: function (decrementItemsCount) {
@@ -113,13 +115,11 @@
 
         showLimitError: function () {
             var $addButton = this.$element.children(".js-coral-Multicompositefield-add"),
-                message = "A maximum of " + this.limit + " items are allowed for this field.",
-                arrow = this.$element.closest("form").hasClass("coral-Form--vertical") ? "right" : "top";
+                message = "A maximum of " + this.limit + " items are allowed for this field.";
 
             $addButton.attr('disabled', 'disabled');
 
             $(fieldErrorEl).clone()
-                .attr("data-quicktip-arrow", arrow)
                 .attr("data-quicktip-content", message)
                 .insertAfter($addButton);
         },

@@ -9,7 +9,7 @@
 <div ${multi.attributes} data-original-count="${fn:length(multi.values)}" data-base-name="${multi.baseName}" data-multi-name="${multi.name}" data-allow-reorder="${multi.allowReorder}" data-limit="${multi.limit}">
 	<ol class="coral-Multifield-list js-coral-Multicompositefield-list multicompositefield-list">
 		<c:forEach var="value" items="${multi.values}" varStatus="valueStatus">
-			<li class="js-coral-Multicompositefield-input coral-Multifield-input">
+			<li class="js-coral-Multicompositefield-input coral-Multicompositefield-input">
 				<section  class='coral-Form-fieldset multicompositefield-item'>
 					<div>
 						<c:forEach var="field" items="${multi.fields}">

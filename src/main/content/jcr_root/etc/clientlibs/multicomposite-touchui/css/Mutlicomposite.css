@@ -1,47 +1,19 @@
-.coral-Multicompositefield-add {
-  margin-top: .625rem;
-}
-
-.coral-Multicompositefield-remove {
-  position: absolute;
-  top: 0;
-  right: 2.375rem;
-}
-
-.coral-Multicompositefield-move {
-  cursor: url("coralui2/resources/shared/cursors/Cur_Hand_11_11.cur"),move;
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.coral-Multicompositefield-move:active {
-  cursor: url("coralui2/resources/shared/cursors/Cur_Fist_11_11.cur"),default !important;
-  cursor: -webkit-grabbing !important;
-  cursor: -moz-grabbing !important;
-}
-
-.coral-Multicompositefield-input {
-  position: relative;
-  margin-top: .5rem;
-  padding-right: 4.75rem;
-}
-
-.coral-Multicompositefield-input:first-child {
-  margin-top: 0;
-}
-
-.coral-Multicompositefield-input > :first-child {
+.multi-composite-field .coral-Multifield {
+  background-color: transparent;
+  border: none;
+  margin-bottom: 1rem;
+  padding: 0;
   width: 100%;
 }
-
-.coral-Multicompositefield-input:only-child .coral-Multicompositefield-move {
-  display: none;
+.multi-composite-field .coral-Multicompositefield-input {
+  position: relative;
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
+  margin: 0;
+  padding: 1.25rem 5rem .3rem 1.25rem;
 }
-
-.coral-Multicompositefield-input.is-dragging {
+.multi-composite-field .coral-Multicompositefield-input.is-dragging {
   opacity: .9;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
   filter: alpha(opacity=90);
@@ -50,30 +22,67 @@
   left: 0;
   z-index: 10000;
 }
-
-.coral-Multicompositefield-input.is-dragging:first-child + .coral-Multicompositefield-input {
-  margin-top: 0;
+.multi-composite-field .coral-Multicompositefield-input:last-child, .multi-composite-field .coral-Multicompositefield-input.is-dragging {
+  border-bottom: 1px solid;
 }
-
-.coral-Multicompositefield-input + .coral-Multicompositefield-input {
-  margin-top: .625rem;
-}
-
-.coral-Multicompositefield-input--dragAfter {
+.multi-composite-field .coral-Multicompositefield-input.coral-Multicompositefield-input--dragAfter {
   position: relative;
   top: 3rem;
 }
-
-/* Multicompositefield.form.styl */
-
-.coral-Form--vertical .coral-Form-field.coral-Multicompositefield {
-  display: block;
+.multi-composite-field .coral-Multicompositefield-input .coral-Multicompositefield-remove {
+  position: absolute;
+  right: 3rem;
+  top: .625rem;
+}
+.multi-composite-field .coral-Multicompositefield-input .coral-Multicompositefield-move {
+  position: absolute;
+  right: .625rem;
+  top: .625rem;
+  cursor: url(coralui2/resources/shared/cursors/Cur_Hand_11_11.cur), move;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  -ms-touch-action: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.multi-composite-field .coral-Multicompositefield-input .multicompositefield-item {
+  margin: 0;
+  width: 100%;
+}
+.multi-composite-field .coral-Multicompositefield-add {
+  margin-top: .625rem;
+}
+.multi-composite-field .coral-MinimalButton {
+  line-height: normal;
+}
+.multi-composite-field > .coral-Form-fieldinfo {
+  float: right !important;
+}
+.multi-composite-field .coral-Form-fieldinfo {
+  line-height: 1.6 !important;
+}
+.multi-composite-field .coral-Form-fielderror {
+  float: none !important;
 }
 
-/* Multicompositefield.dark.styl */
+.coral-Form--aligned .coral-Form-fieldwrapper .coral-Form-fieldlabel {
+  line-height: 1.6;
+  min-height: 2.375rem;
+}
 
-.coral--dark .coral-Multicompositefield,
-.coral--dark.coral-Multicompositefield {
-  border-color: #434343;
-  background-color: #484848;
+.coral-Form--vertical .multi-composite-field .coral-Form-fielderror {
+  position: relative !important;
+}
+
+.coral--light .multi-composite-field .coral-Multicompositefield-input {
+  background-color: #eaeaea;
+  border-color: #d0d0d0;
+}
+
+.coral--dark .multi-composite-field .coral-Multicompositefield-input {
+  background-color: #444;
+  border-color: #3c3c3c;
 }
