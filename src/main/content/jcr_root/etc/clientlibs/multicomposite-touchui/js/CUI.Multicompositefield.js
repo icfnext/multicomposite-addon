@@ -160,18 +160,27 @@
 
             this.$element.on('click', '.js-coral-Multicompositefield-remove', function () {
                 var item = $(this).closest(".js-coral-Multicompositefield-input");
+                var form = self.$element.closest('form');
 
                 item.find('.coral-Multicompositefield').each(function () {
-                    var form = self.$element.closest('form');
                     var count = $(this).find("ol").first().children().length;
                     var name = $(this).data("multi-name");
                     var baseName = $(this).data('base-name');
+
                     for (var i = 0; i <= count; i++) {
                         var input = $("<input>").attr("type", "hidden").attr("name", name + "/" + baseName + i + "@Delete");
                         form.append(input);
                     }
                 });
+
                 item.remove();
+
+                if (!self.$element.find("ol").first().children().length) {
+                    var name = self.$element.data("name");
+                    var input = $("<input>").attr("type", "hidden").attr("name", name + "@Delete");
+
+                    form.append(input);
+                }
             });
 
             this.$element
