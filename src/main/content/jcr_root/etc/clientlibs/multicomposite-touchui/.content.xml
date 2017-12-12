@@ -4,4 +4,4 @@
           xmlns:jcr="http://www.jcp.org/jcr/1.0"
           jcr:primaryType="cq:ClientLibraryFolder"
           sling:resourceType="widgets/clientlib"
-          categories="[cq.authoring.editor,cq.authoring.dialog,touchui.multicomposite]" />
+          categories="[cq.authoring.editor,cq.authoring.editor.core,cq.authoring.dialog,touchui.multicomposite]" />
