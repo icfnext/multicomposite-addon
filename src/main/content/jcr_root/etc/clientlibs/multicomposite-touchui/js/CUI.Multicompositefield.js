@@ -149,6 +149,10 @@
                     item.find('.js-coral-Multicompositefield-placeholder').replaceWith(newItems);
                     item.appendTo(self.ol);
                     $(self.ol).trigger('cui-contentloaded');
+                    item.trigger($.Event("dialog-loaded", {
+                        dialog: $(item).closest('.cq-dialog'),
+                        resourceType: ''
+                    }));
                 }
             });
 
