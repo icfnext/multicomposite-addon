@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>multicomposite-addon</artifactId>
     <packaging>bundle</packaging>
-    <version>3.2.2-SNAPSHOT</version>
+    <version>3.2.3-SNAPSHOT</version>
     <name>AEM Multicomposite Addon</name>
     <description>Adds multicomposite field to AEM</description>
 
