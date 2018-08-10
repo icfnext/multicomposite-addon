@@ -171,6 +171,11 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+        </dependency>
+
         <!-- uber jar -->
         <dependency>
             <groupId>com.adobe.aem</groupId>
