@@ -1,6 +1,5 @@
 package com.icfolson.aem.multicompositeaddon.tags;
 
-import com.adobe.granite.license.ProductInfo;
 import com.adobe.granite.ui.components.ComponentHelper;
 import com.adobe.granite.ui.components.ComponentHelper.Options;
 import com.adobe.granite.ui.components.FormData;
@@ -8,11 +7,8 @@ import com.adobe.granite.ui.components.Value;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
-import org.apache.sling.api.scripting.SlingBindings;
-import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.adobe.granite.license.ProductInfoService;
 import org.osgi.framework.Version;
 
 import javax.servlet.jsp.JspException;
@@ -20,7 +16,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 public class WidgetIncludeTag extends TagSupport {
     private static final Logger LOG = LoggerFactory.getLogger(WidgetIncludeTag.class);
-    private static Version compareVersion = new Version(6, 4, 0);
     private ValueMap valueMap;
     private String path;
     private boolean readOnly;
@@ -89,27 +84,14 @@ public class WidgetIncludeTag extends TagSupport {
     }
 
     private boolean useFormData() {
-        return WidgetIncludeTag
-                .getCurrentAEMVersion((SlingHttpServletRequest) pageContext.getAttribute("slingRequest"))
-                .compareTo(compareVersion) >= 0;
-    }
+        boolean formDataAvailable = true;
 
-    private static Version getCurrentAEMVersion(SlingHttpServletRequest request) {
-        final SlingBindings slingBindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
-        Version currentVersion = Version.emptyVersion;
-
-        if (slingBindings != null) {
-            SlingScriptHelper scriptHelper = slingBindings.getSling();
-            ProductInfoService[] productInfoServices = scriptHelper.getServices(ProductInfoService.class, null);
-            if (productInfoServices.length > 0) {
-                ProductInfoService productInfoService = productInfoServices[0];
-                ProductInfo[] productInfos = productInfoService.getInfos();
-                if (productInfos.length > 0) {
-                    currentVersion = productInfos[0].getVersion();
-                }
-            }
+        try {
+            Class.forName( "com.adobe.granite.ui.components.FormData" );
+        } catch( ClassNotFoundException e ) {
+            formDataAvailable = false;
         }
 
-        return currentVersion;
+        return formDataAvailable;
     }
 }
