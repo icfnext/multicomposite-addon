@@ -7,15 +7,11 @@ import com.adobe.granite.ui.components.Value;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.osgi.framework.Version;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 public class WidgetIncludeTag extends TagSupport {
-    private static final Logger LOG = LoggerFactory.getLogger(WidgetIncludeTag.class);
     private ValueMap valueMap;
     private String path;
     private boolean readOnly;
