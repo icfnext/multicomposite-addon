@@ -12,8 +12,11 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 public class WidgetIncludeTag extends TagSupport {
+
     private ValueMap valueMap;
+
     private String path;
+
     private boolean readOnly;
 
     @Override
@@ -60,8 +63,8 @@ public class WidgetIncludeTag extends TagSupport {
         if (useFormData) {
             FormData.pop(request);
         } else {
-            request.setAttribute(Value.FORM_VALUESS_ATTRIBUTE, (ValueMap) request.getAttribute(Value.FORM_VALUESS_ATTRIBUTE));
-            request.setAttribute(Value.CONTENTPATH_ATTRIBUTE, (String) request.getAttribute(Value.CONTENTPATH_ATTRIBUTE));
+            request.setAttribute(Value.FORM_VALUESS_ATTRIBUTE, request.getAttribute(Value.FORM_VALUESS_ATTRIBUTE));
+            request.setAttribute(Value.CONTENTPATH_ATTRIBUTE, request.getAttribute(Value.CONTENTPATH_ATTRIBUTE));
         }
 
         return EVAL_PAGE;
@@ -83,8 +86,8 @@ public class WidgetIncludeTag extends TagSupport {
         boolean formDataAvailable = true;
 
         try {
-            Class.forName( "com.adobe.granite.ui.components.FormData" );
-        } catch( ClassNotFoundException e ) {
+            Class.forName("com.adobe.granite.ui.components.FormData");
+        } catch (ClassNotFoundException e) {
             formDataAvailable = false;
         }
 
