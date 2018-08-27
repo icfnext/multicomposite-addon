@@ -2,6 +2,7 @@ package com.icfolson.aem.multicompositeaddon.tags;
 
 import com.adobe.granite.ui.components.ComponentHelper;
 import com.adobe.granite.ui.components.ComponentHelper.Options;
+import com.adobe.granite.ui.components.FormData;
 import com.adobe.granite.ui.components.Value;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
@@ -20,21 +21,36 @@ public class WidgetIncludeTag extends TagSupport {
 
     @Override
     public int doEndTag() throws JspException {
-        SlingHttpServletRequest request = (SlingHttpServletRequest) pageContext.getAttribute("slingRequest");
-        ComponentHelper cmp = (ComponentHelper) pageContext.getAttribute("cmp");
-
-        ValueMap existing = (ValueMap) request.getAttribute(Value.FORM_VALUESS_ATTRIBUTE);
-        String existingPath = (String) request.getAttribute(Value.CONTENTPATH_ATTRIBUTE);
+        final SlingHttpServletRequest request = (SlingHttpServletRequest) pageContext.getAttribute("slingRequest");
+        final ComponentHelper cmp = (ComponentHelper) pageContext.getAttribute("cmp");
+        final Boolean useFormData = this.useFormData();
 
         if (valueMap == null) {
-            request.removeAttribute(Value.FORM_VALUESS_ATTRIBUTE);
-            request.removeAttribute(Value.CONTENTPATH_ATTRIBUTE);
+            if (useFormData) {
+                FormData.push(request, ValueMap.EMPTY, FormData.NameNotFoundMode.IGNORE_FRESHNESS);
+            } else {
+                request.removeAttribute(Value.FORM_VALUESS_ATTRIBUTE);
+                request.removeAttribute(Value.CONTENTPATH_ATTRIBUTE);
+            }
         } else {
-            request.setAttribute(Value.FORM_VALUESS_ATTRIBUTE, valueMap);
+            if (useFormData) {
+                final FormData formData = FormData.from(request);
+
+                FormData.NameNotFoundMode mode = FormData.NameNotFoundMode.IGNORE_FRESHNESS;
+
+                if (formData != null) {
+                    mode = formData.getMode();
+                }
+
+                FormData.push(request, valueMap, mode);
+            } else {
+                request.setAttribute(Value.FORM_VALUESS_ATTRIBUTE, valueMap);
+            }
         }
 
         try {
-            Resource field = request.getResourceResolver().getResource(path);
+            final Resource field = request.getResourceResolver().getResource(path);
+
             if (readOnly) {
                 cmp.include(field, cmp.getReadOnlyResourceType(field), new Options().rootField(false));
             } else {
@@ -44,8 +60,12 @@ public class WidgetIncludeTag extends TagSupport {
             throw new JspException("Error including component", e);
         }
 
-        request.setAttribute(Value.FORM_VALUESS_ATTRIBUTE, existing);
-        request.setAttribute(Value.CONTENTPATH_ATTRIBUTE, existingPath);
+        if (useFormData) {
+            FormData.pop(request);
+        } else {
+            request.setAttribute(Value.FORM_VALUESS_ATTRIBUTE, request.getAttribute(Value.FORM_VALUESS_ATTRIBUTE));
+            request.setAttribute(Value.CONTENTPATH_ATTRIBUTE, request.getAttribute(Value.CONTENTPATH_ATTRIBUTE));
+        }
 
         return EVAL_PAGE;
     }
@@ -60,5 +80,17 @@ public class WidgetIncludeTag extends TagSupport {
 
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
+    }
+
+    private boolean useFormData() {
+        boolean formDataAvailable = true;
+
+        try {
+            Class.forName("com.adobe.granite.ui.components.FormData");
+        } catch (ClassNotFoundException e) {
+            formDataAvailable = false;
+        }
+
+        return formDataAvailable;
     }
 }

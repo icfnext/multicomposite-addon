@@ -4,13 +4,13 @@
     <parent>
         <groupId>com.icfolson.aem</groupId>
         <artifactId>aem-parent-uber-jar</artifactId>
-        <version>6.2.0</version>
+        <version>6.4.1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>multicomposite-addon</artifactId>
     <packaging>bundle</packaging>
-    <version>3.2.3-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <name>AEM Multicomposite Addon</name>
     <description>Adds multicomposite field to AEM</description>
 
@@ -195,7 +195,7 @@
         <!-- third party -->
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
